@@ -1,4 +1,4 @@
 KiiWorld-Unity
 ================
 
-See <a href="Assets/readme.txt">Assets/readme.txt</a>
+See <a href="Assets/Readme.txt">Assets/Readme.txt</a>
