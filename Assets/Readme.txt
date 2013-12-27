@@ -6,7 +6,7 @@ A simple game to help you get started with Kii SDK on Unity 3D
 Files
 -----
 
-There are 3 files that include Kii Cloud API calls:
+There are 3 files in the Scripts folder that include Kii Cloud API calls:
 
 1) GameTitle: used to sign-in/sign-up a user and initialize the backend
 2) KiiCloudLogin: used to send asynchronous user sign-in/sign-up requests

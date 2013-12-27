@@ -17,6 +17,7 @@ public class GameTitle : MonoBehaviour {
     }
 
     void Awake () {
+		//Broken code? Sign up on developer.kii.com and create a Unity app to get these parameters!
         Kii.Initialize ("__KII_APP_ID__", "__KII_APP_KEY__", __KII_APP_SITE__);
     }
 
