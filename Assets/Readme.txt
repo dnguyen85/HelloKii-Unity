@@ -1,10 +1,24 @@
 KiiWorld-Unity
 ================
 
-A shell project to help you get started with Kii SDK on Unity 3D
+A simple game to help you get started with Kii SDK on Unity 3D
 
-If you didn't get this project from developer.kii.com these are 
-the instructions to make it work:
+Files
+-----
+
+There are 3 files that include Kii Cloud API calls:
+
+1) GameTitle: used to sign-in/sign-up a user and initialize the backend
+2) KiiCloudLogin: used to send asynchronous user sign-in/sign-up requests
+   to the backend
+3) ScoreManager: used to send and receive game high scores from the backend
+   for each user
+
+Create your own app backend
+---------------------------
+
+If you didn't get this project from developer.kii.com with preloaded
+app id and key these are the instructions to make it work:
 
 1) Create an account at http://developer.kii.com
 2) Create an application as explained in "Register an application"
@@ -19,3 +33,11 @@ http://documentation.kii.com/en/starts/unity/
 4) Replace those keys in file Scripts/GameTitle.cs in Kii.Initialize
 method.
 5) Run the GameTitle scene
+
+Playing instructions
+--------------------
+
+1) Login or register a user
+2) Fire the ball with the space key
+3) Move the platform with the mouse
+4) To sign off a user just sign in with a different user

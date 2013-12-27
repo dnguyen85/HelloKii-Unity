@@ -1,5 +1,6 @@
 ﻿using KiiCorp.Cloud.Storage;
 using UnityEngine;
+using System;
 
 public class ScoreManager {
 
@@ -17,12 +18,15 @@ public class ScoreManager {
         KiiBucket bucket = user.Bucket (BUCKET_NAME);
         KiiObject kiiObj = bucket.NewKiiObject ();
         kiiObj [SCORE_KEY] = score;
-        try {
-            kiiObj.Save ();
-			Debug.Log("High score sent");
-        } catch (CloudException e) {
-			Debug.LogError(e.ToString());
-        }
+
+		kiiObj.Save((KiiObject obj, Exception e) => {
+			if (e != null)
+			{
+				Debug.LogError(e.ToString());
+			} else {
+				Debug.Log("High score sent");
+			}
+		});
     }
 
     public static int getHighScore () {
@@ -38,18 +42,37 @@ public class ScoreManager {
         KiiQuery query = new KiiQuery ();
         query.SortByDesc (SCORE_KEY);
         query.Limit = 10;
-        try {
-            KiiQueryResult<KiiObject> result = bucket.Query (query);
-            foreach (KiiObject obj in result) {
-                int score = obj.GetInt (SCORE_KEY, 0);
-                cachedHighScore = score;
-                return score;
-            }
-            return 0;
-        } catch (CloudException e) {
-			Debug.LogError(e.ToString());
-            return 0;
-        }
+
+		try {
+			KiiQueryResult<KiiObject> result = bucket.Query (query);
+			foreach (KiiObject obj in result) {
+				int score = obj.GetInt (SCORE_KEY, 0);
+				cachedHighScore = score;
+				return score;
+			}
+			Debug.Log ("Query succeeded");
+			return 0;
+		} catch (CloudException e) {
+			Debug.Log ("Failed to query " + e.ToString());
+			return 0;
+		}
+
+		/* Async version
+		bucket.Query(query, (KiiQueryResult<KiiObject> list, Exception e) =>{
+			if (e != null)
+			{
+				Debug.Log ("Failed to query " + e.ToString());
+			} else {
+				Debug.Log ("Query succeeded");
+				foreach (KiiObject obj in list) {
+					int score = obj.GetInt (SCORE_KEY, 0);
+					cachedHighScore = score;
+					getHighScore = score;
+					return;
+				}
+			}
+		});
+		*/
     }
 
     public static void refreshHighScore () {
@@ -73,4 +96,9 @@ public class ScoreManager {
     public static void initCurrentScore () {
         currentScore = 0;
     }
+
+	public static void clearLocalScore(){
+		cachedHighScore = 0;
+		currentScore = 0;
+	}
 }

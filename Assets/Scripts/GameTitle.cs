@@ -26,15 +26,10 @@ public class GameTitle : MonoBehaviour {
         GUILayout.BeginHorizontal ();
         GUILayout.FlexibleSpace ();
         GUILayout.BeginVertical ();
-        GUILayout.Label ("Breakout powered by KiiCloud", GUILayout.ExpandWidth (false));
-        GUILayout.Space (10);
-        if (GUILayout.Button ("Start!", GUILayout.MinHeight (50), GUILayout.MinWidth (100))) {
-            Application.LoadLevel ("GameMain");
-        }
-        ;
-        GUILayout.Space (50);
+        GUILayout.Label ("Breakout by KiiCloud", GUILayout.ExpandWidth (false));
+        GUILayout.Space (20);
         GUILayout.Label ("Username : " + getCurrentUsername (), GUILayout.ExpandWidth (false));
-        if (GUILayout.Button ("Login KiiCloud", GUILayout.MinHeight (50), GUILayout.MinWidth (100))) {
+        if (GUILayout.Button ("Login", GUILayout.MinHeight (50), GUILayout.MinWidth (100))) {
             Application.LoadLevel ("KiiCloudLogin");
         }
         GUILayout.EndVertical ();
@@ -49,6 +44,6 @@ public class GameTitle : MonoBehaviour {
         if (user != null) {
             return user.Username;
         }
-        return "Not logged in";
+        return "No user";
     }
 }

@@ -7,6 +7,8 @@ public class KiiCloudLogin : MonoBehaviour {
 
     private string username = "";
     private string password = "";
+	private KiiUser user = null;
+	private bool OnCallback = false;
 
     // Use this for initialization
     void Start () {
@@ -19,6 +21,11 @@ public class KiiCloudLogin : MonoBehaviour {
     }
 
     void OnGUI () {
+		if (OnCallback)
+			GUI.enabled = false;
+		else
+			GUI.enabled = true;
+
         GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
         GUILayout.FlexibleSpace ();
         GUILayout.BeginHorizontal ();
@@ -35,16 +42,26 @@ public class KiiCloudLogin : MonoBehaviour {
         if (GUILayout.Button ("Login", GUILayout.MinHeight (50), GUILayout.MinWidth (100))) {
 			if( username.Length == 0 || password.Length == 0 )
 				Debug.Log ("Username/password can't be empty");
-			else
+			else {
+				ScoreManager.clearLocalScore();
             	login ();
+			}
         }
 
         if (GUILayout.Button ("Register", GUILayout.MinHeight (50), GUILayout.MinWidth (100))) {
 			if( username.Length == 0 || password.Length == 0 )
 				Debug.Log ("Username/password can't be empty");
-			else
+			else {
+				ScoreManager.clearLocalScore();
             	register ();
+			}
         }
+
+		if (user != null) {
+			OnCallback = false;
+			ScoreManager.getHighScore ();
+			Application.LoadLevel ("GameMain");
+		}
 
         if (GUILayout.Button ("Cancel", GUILayout.MinHeight (50), GUILayout.MinWidth (100))) {
             Application.LoadLevel ("GameTitle");
@@ -56,61 +73,38 @@ public class KiiCloudLogin : MonoBehaviour {
         GUILayout.EndArea ();
     }
 
+
 	private void login () {
-		Action<string> callback = delegate(string s) {
-			loginCallback (s);};
-		StartCoroutine (loginBlocking (callback));
-	}
-	
-	private void loginCallback (string errorMessage) {
-		if (errorMessage == null) {
-			Debug.Log ("Login completed");
-			ScoreManager.getHighScore();
-			Application.LoadLevel ("GameMain");
-		} else {
-			Debug.Log ("Login failed : " + errorMessage);
-		}
-	}
-	
-	IEnumerator loginBlocking (Action<string> callback) {
-		string errText = null;
-		try {
-			Debug.Log ("User : " + username + " / Pass : " + password);
-			KiiUser.LogIn (username, password);
-		} catch (CloudException e) {
-			errText = e.Message;
-		}
-		yield return null;
-		callback (errText);
-		yield return null;
+		user = null;
+		OnCallback = true;
+		KiiUser.LogIn(username, password, (KiiUser user2, Exception e) => {
+			if (e == null) {
+				Debug.Log ("Login completed");
+				user = user2;
+			} else {
+				user = null;
+				OnCallback = false;
+				Debug.Log ("Login failed : " + e.ToString());
+			}
+		});
 	}
 	
 	private void register () {
-		Action<string> callback = delegate(string s) {
-			registerCallback (s);};
-		StartCoroutine (registerBlocking (callback));
+		user = null;
+		OnCallback = true;
+		KiiUser built_user = KiiUser.BuilderWithName (username).Build ();
+		built_user.Register(password, (KiiUser user2, Exception e) => {
+			if (e == null)
+			{
+				user = user2;
+				Debug.Log ("Register completed");
+			} else {
+				user = null;
+				OnCallback = false;
+				Debug.Log ("Register failed : " + e.ToString());
+			}
+
+		});
 	}
-	
-	private void registerCallback (string errorMessage) {
-		if (errorMessage == null) {
-			Debug.Log ("Register completed");
-			Application.LoadLevel ("GameMain");
-		} else {
-			Debug.Log ("Register failed : " + errorMessage);
-		}
-	}
-	
-	IEnumerator registerBlocking (Action<string> callback) {
-		string errText = null;
-		KiiUser user = KiiUser.BuilderWithName (username).Build ();
-		try {
-			Debug.Log ("User : " + username + " / Pass : " + password);
-			user.Register (password);
-		} catch (CloudException e) {
-			errText = e.Message;
-		}
-		yield return null;
-		callback (errText);
-		yield return null;
-	}
+
 }
