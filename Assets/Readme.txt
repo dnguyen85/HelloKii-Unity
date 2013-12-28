@@ -41,3 +41,10 @@ Playing instructions
 2) Fire the ball with the space key
 3) Move the platform with the mouse
 4) To sign off a user just sign in with a different user
+
+Interested in Game Analytics?
+-----------------------------
+
+We also offer a dedicated Unity SDK for Game Analytics which you can
+download here: http://developer.kii.com/#/sdks
+More info: http://documentation.kii.com/en/guides/unity/managing-analytics
