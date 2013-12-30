@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/GameTitle.unity
+    path: Assets/Scenes/1_GameTitle.unity
   - enabled: 1
-    path: Assets/Scenes/KiiCloudLogin.unity
+    path: Assets/Scenes/2_KiiCloudLogin.unity
   - enabled: 1
-    path: Assets/Scenes/GameMain.unity
+    path: Assets/Scenes/3_GameMain.unity
   - enabled: 1
-    path: Assets/Scenes/GameClear.unity
+    path: Assets/Scenes/4_GameClear.unity
   - enabled: 1
-    path: Assets/Scenes/GameOver.unity
+    path: Assets/Scenes/5_GameOver.unity
