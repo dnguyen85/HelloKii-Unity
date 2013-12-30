@@ -26,7 +26,7 @@ public class Block : MonoBehaviour {
         iBlockCnt--;
         // If block count is 0, move "GameClear" scene.
         if (iBlockCnt == 0) {
-            Application.LoadLevel ("GameClear");
+            Application.LoadLevel ("4_GameClear");
         }
     }
 }

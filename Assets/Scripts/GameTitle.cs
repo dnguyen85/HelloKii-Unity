@@ -12,7 +12,7 @@ public class GameTitle : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         if (Input.GetButton ("Jump")) {
-            Application.LoadLevel ("GameMain");
+            Application.LoadLevel ("3_GameMain");
         }
     }
 
@@ -46,7 +46,7 @@ public class GameTitle : MonoBehaviour {
 			GUILayout.Space (20);
 			GUILayout.Label ("Username : " + getCurrentUsername (), GUILayout.ExpandWidth (false));
 			if (GUILayout.Button ("Login", GUILayout.MinHeight (50), GUILayout.MinWidth (100))) {
-				Application.LoadLevel ("KiiCloudLogin");
+				Application.LoadLevel ("2_KiiCloudLogin");
 			}	
 		}
 

@@ -11,13 +11,13 @@ public class GameClear : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         if (Input.GetButton ("Jump")) {
-            Application.LoadLevel ("GameTitle");
+            Application.LoadLevel ("1_GameTitle");
         }
      
         if (Input.touchCount == 1) {
             Touch touch = Input.GetTouch (0);
             if (touch.phase == TouchPhase.Began) {
-                Application.LoadLevel ("GameTitle");
+                Application.LoadLevel ("1_GameTitle");
             }
         }
     }
@@ -34,13 +34,13 @@ public class GameClear : MonoBehaviour {
         GUILayout.Label ("High Score : " + ScoreManager.getCachedHighScore());
 
         if (GUILayout.Button ("Replay!", GUILayout.MinHeight (50), GUILayout.MinWidth (100))) {
-            Application.LoadLevel ("GameMain");
+            Application.LoadLevel ("3_GameMain");
         }
         if (GUILayout.Button ("Send high score", GUILayout.MinHeight (50), GUILayout.MinWidth (100))) {
             ScoreManager.sendHighScore(ScoreManager.getHighScore ());
         }
         if (GUILayout.Button ("Return to title", GUILayout.MinHeight (50), GUILayout.MinWidth (100))) {
-            Application.LoadLevel ("GameTitle");
+            Application.LoadLevel ("1_GameTitle");
         }
         GUILayout.EndVertical ();
         GUILayout.FlexibleSpace ();

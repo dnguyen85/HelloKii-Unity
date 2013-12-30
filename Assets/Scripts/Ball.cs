@@ -66,7 +66,7 @@ public class Ball : MonoBehaviour {
     void OnTriggerEnter (Collider other) {
         // If ball hits the miss frame (bottom frame), load GameOver scene.
         if (other.CompareTag ("MissFrame")) {
-            Application.LoadLevel ("GameOver");
+            Application.LoadLevel ("5_GameOver");
         }
     }
 }

@@ -60,11 +60,11 @@ public class KiiCloudLogin : MonoBehaviour {
 		if (user != null) {
 			OnCallback = false;
 			ScoreManager.getHighScore ();
-			Application.LoadLevel ("GameMain");
+			Application.LoadLevel ("3_GameMain");
 		}
 
         if (GUILayout.Button ("Cancel", GUILayout.MinHeight (50), GUILayout.MinWidth (100))) {
-            Application.LoadLevel ("GameTitle");
+            Application.LoadLevel ("1_GameTitle");
         }
         GUILayout.EndVertical ();
         GUILayout.FlexibleSpace ();
