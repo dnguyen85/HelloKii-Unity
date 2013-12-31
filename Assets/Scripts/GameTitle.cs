@@ -35,7 +35,8 @@ public class GameTitle : MonoBehaviour {
         GUILayout.FlexibleSpace ();
         GUILayout.BeginVertical ();
 		GUILayout.Label ("<size=35>Breakout by Kii</size>", style, GUILayout.ExpandWidth (false));
-		if (Kii.AppId.Equals ("__KII_APP_ID__") || Kii.AppKey.Equals ("__KII_APP_KEY__")) {
+		// Don't replace the parameters below please!! Replace in the Awake() method
+		if (Kii.AppId == null || Kii.AppKey == null || Kii.AppId.Equals ("__KII_APP_ID__") || Kii.AppKey.Equals ("__KII_APP_KEY__")) {
 			GUILayout.Space (10);
 			GUILayout.Label ("Invalid API keys. See Assets/Readme.txt", GUILayout.ExpandWidth (false));
 			GUILayout.Space (20);

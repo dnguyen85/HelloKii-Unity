@@ -14,14 +14,20 @@ There are 3 files in the Scripts folder that include Kii Cloud API calls:
 3) ScoreManager: used to send and receive game high scores from the backend
    for each user
    
-Build Settings Order
---------------------
+Build Config
+------------
 
-Scenes/GameTitle.unity
-Scenes/KiiCloudLogin.unity
-Scenes/GameMain.unity
-Scenes/GameClear.unity
-Scenes/GameOver.unity
+Build settings order:
+
+Scenes/1_GameTitle.unity
+Scenes/2_KiiCloudLogin.unity
+Scenes/3_GameMain.unity
+Scenes/4_GameClear.unity
+Scenes/5_GameOver.unity
+
+Tested platforms are PC/Mac, Android and iOS. We don't recommend running
+this project under Web Player (because you'll run into networking 
+limitations).
 
 Create your own app backend
 ---------------------------
