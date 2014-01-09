@@ -53,7 +53,7 @@ public class KiiCloudLogin : MonoBehaviour {
 				Debug.Log ("Username/password can't be empty");
 			else {
 				ScoreManager.clearLocalScore();
-            	register ();
+            	register2 ();
 			}
         }
 
@@ -105,6 +105,24 @@ public class KiiCloudLogin : MonoBehaviour {
 			}
 
 		});
+	}
+
+	private void register2 () {
+		login ();
+		Debug.Log("Building Achievement Data");
+		AchievementData badge1 = new AchievementData("ice_breaker");
+		badge1.Name = "Ice Breaker Achievement";
+		badge1.Description = "Awarded when player scores for the first time";
+
+		AchievementData badge2 = new AchievementData("half_scorer");
+		badge2.Name = "Half Score Achievement";
+		badge2.SetIncremental(11);
+		badge2.Description = "Awarded when player reaches half the total score in the game";
+
+		Debug.Log("Saving badges");
+		StartCoroutine(badge1.Save());
+		StartCoroutine(badge2.Save());
+
 	}
 
 }

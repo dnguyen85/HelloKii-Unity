@@ -8,6 +8,7 @@ public class ScoreManager {
     private static string SCORE_KEY = "score";
     private static int cachedHighScore = 0;
     private static int currentScore = 0;
+	private static bool breakIce = true;
 
     public static void sendHighScore (int score) {
         if (KiiUser.CurrentUser == null || cachedHighScore > score) {
@@ -87,6 +88,34 @@ public class ScoreManager {
 
     public static void addCurrentScore (int add) {
         currentScore += add;
+		if (breakIce){
+			// award ice_breaker badge (1st score in current game)
+			Achievement icebBreaker = new Achievement("ice_breaker");
+			Debug.Log("Loading ice_breaker achievement");
+			icebBreaker.Load();
+			//if(!icebBreaker.IsUnlocked()){
+				icebBreaker.Unlock();
+				Debug.Log("Congrats, you have unlocked " + icebBreaker.AchievementData.Name + ". " + icebBreaker.AchievementData.Description);
+				icebBreaker.Save();
+			//}
+			breakIce = false;
+		}
+		// increment half_scorer badge 
+		Achievement halfScorer = new Achievement("half_scorer");
+		Debug.Log("Loading half_scorer achievement");
+		halfScorer.Load();
+
+		//if(!icebBreaker.IsUnlocked()){
+			Debug.Log("Steps before increment: "+halfScorer.CurrentSteps.ToString());
+			halfScorer.Increment();
+			Debug.Log("Steps after increment: "+halfScorer.CurrentSteps.ToString());
+			if(halfScorer.IsUnlocked()){
+				Debug.Log("Congrats, you have unlocked " + halfScorer.AchievementData.Name + ". " + halfScorer.AchievementData.Description);
+			} else {
+				Debug.Log("Done "+ halfScorer.CurrentSteps +" step/s. You have " + halfScorer.PercentCompleted().ToString() + "% of " + halfScorer.AchievementData.Name);
+			}
+			halfScorer.Save();
+		//}
     }
 
     public static int getCurrentScore () {
