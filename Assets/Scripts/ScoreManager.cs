@@ -105,7 +105,7 @@ public class ScoreManager {
 		Debug.Log("Loading half_scorer achievement");
 		halfScorer.Load();
 
-		//if(!icebBreaker.IsUnlocked()){
+		//if(!halfScorer.IsUnlocked()){
 			Debug.Log("Steps before increment: "+halfScorer.CurrentSteps.ToString());
 			halfScorer.Increment();
 			Debug.Log("Steps after increment: "+halfScorer.CurrentSteps.ToString());
