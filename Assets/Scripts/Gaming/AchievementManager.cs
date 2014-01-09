@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class AchievementManager {
 
-	public IEnumerator SaveAchievementData(AchievementData ad){
+	public void SaveAchievementData(AchievementData ad){
 		// if it exists then it's an update
 		Debug.Log(ad.Id + " Fetching existing AchievementData");
 		KiiObject obj = FetchAchievementDataObject(ad.Id);
@@ -28,12 +28,13 @@ public class AchievementManager {
 				Debug.Log(ad.Id + " AchievementData saved");
 			}
 		});
-		yield return null;
+		//yield return null;
 	}
 
-	public IEnumerator LoadAchievementData(AchievementData ad){
+	public void LoadAchievementData(AchievementData ad){
 		KiiBucket bucket = AchievementsDataBucket;
 		KiiQuery query = new KiiQuery(KiiClause.Equals(AchievementData.IdProperty, ad.Id));
+		query.SortByAsc ("_created");
 		query.Limit = 1;
 		bucket.Query(query, (KiiQueryResult<KiiObject> list, Exception e) =>{
 			if (e != null) {
@@ -47,10 +48,10 @@ public class AchievementManager {
 				}
 			}
 		});
-		yield return null;
+		//yield return null;
 	}
 
-	public IEnumerator SaveAchievement(Achievement ac){ 
+	public void SaveAchievement(Achievement ac){ 
 		// if it exists then it's an update
 		KiiObject obj = FetchAchievementObject(ac.Id);
 		if(obj == null) {
@@ -60,38 +61,40 @@ public class AchievementManager {
 		// set fields
 		ac.CopyToObject(obj);
 		// save to cloud
-		obj.Save((KiiObject ob, Exception e) => {
-			if (e != null) {
-				Debug.LogError(e.ToString());
-			} else {
-				Debug.Log("Achievement saved");
-			}
-		});
-		yield return null;
+		try {
+			obj.Save();
+			Debug.Log("Achievement saved");
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		//yield return null;
 	}
 
-	public IEnumerator LoadAchievement(Achievement ac){
+	public void LoadAchievement(Achievement ac){
 		KiiBucket bucket = AchievementsBucket;
 		KiiQuery query = new KiiQuery(KiiClause.Equals(Achievement.IdProperty, ac.Id));
+		query.SortByAsc ("_created");
 		query.Limit = 1;
-		bucket.Query(query, (KiiQueryResult<KiiObject> list, Exception e) =>{
-			if (e != null) {
-				Debug.Log (ac.Id + " Failed to query");
-				throw e;
-			} else {
-				Debug.Log (ac.Id + " Query succeeded");
-				foreach (KiiObject obj in list) {
-					ac.CopyFromObject(obj);
-					return;
-				}
+
+		try {
+			KiiQueryResult<KiiObject> result = bucket.Query (query);
+			Debug.Log (ac.Id + " Query succeeded");
+			foreach (KiiObject obj in result) {
+				ac.CopyFromObject(obj);
+				return;
 			}
-		});
-		yield return null;
+		} catch (CloudException e) {
+			Debug.Log (ac.Id + " Failed to query");
+			throw e;
+		}
+		//yield return null;
 	}
 
 	private KiiBucket AchievementsBucket {
 		get {
 			return CurrentUser.Bucket(Constants.ACHIEVEMENTS_BUCKET);
+			//return Kii.Bucket(Constants.ACHIEVEMENTS_BUCKET);
 		}
 	}
 
@@ -110,6 +113,7 @@ public class AchievementManager {
 	public KiiObject FetchAchievementDataObject(string id) {
 		KiiBucket bucket = AchievementsDataBucket;
 		KiiQuery query = new KiiQuery(KiiClause.Equals(AchievementData.IdProperty, id));
+		query.SortByAsc ("_created");
 		query.Limit = 1;
 		try {
 			KiiQueryResult<KiiObject> result = bucket.Query(query);
@@ -134,6 +138,7 @@ public class AchievementManager {
 	public KiiObject FetchAchievementObject(string id) {
 		KiiBucket bucket = AchievementsBucket;
 		KiiQuery query = new KiiQuery(KiiClause.Equals(Achievement.IdProperty, id));
+		query.SortByAsc ("_created");
 		query.Limit = 1;
 		try {
 			KiiQueryResult<KiiObject> result = bucket.Query(query);

@@ -120,8 +120,8 @@ public class KiiCloudLogin : MonoBehaviour {
 		badge2.Description = "Awarded when player reaches half the total score in the game";
 
 		Debug.Log("Saving badges");
-		StartCoroutine(badge1.Save());
-		StartCoroutine(badge2.Save());
+		badge1.Save();
+		badge2.Save();
 
 	}
 

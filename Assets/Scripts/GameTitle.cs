@@ -19,7 +19,7 @@ public class GameTitle : MonoBehaviour {
     void Awake () {
         //Sign up on developer.kii.com and create a Unity app to get these parameters!
 		//See the Assets/Readme.txt file in this project for more info
-		Kii.Initialize ("__KII_APP_ID__", "__KII_APP_KEY__", __KII_APP_SITE__);; 
+		Kii.Initialize ("__KII_APP_ID__", "__KII_APP_KEY__", __KII_APP_SITE__);
 		//Your backend location options: Kii.Site.US, Kii.Site.JP, Kii.Site.CN
 		//IMPORTANT: backend location here must match backend location configured in your app at developer.kii.com
 

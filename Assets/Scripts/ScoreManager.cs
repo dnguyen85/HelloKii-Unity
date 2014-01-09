@@ -104,11 +104,8 @@ public class ScoreManager {
 		Achievement halfScorer = new Achievement("half_scorer");
 		Debug.Log("Loading half_scorer achievement");
 		halfScorer.Load();
-
 		//if(!halfScorer.IsUnlocked()){
-			Debug.Log("Steps before increment: "+halfScorer.CurrentSteps.ToString());
 			halfScorer.Increment();
-			Debug.Log("Steps after increment: "+halfScorer.CurrentSteps.ToString());
 			if(halfScorer.IsUnlocked()){
 				Debug.Log("Congrats, you have unlocked " + halfScorer.AchievementData.Name + ". " + halfScorer.AchievementData.Description);
 			} else {

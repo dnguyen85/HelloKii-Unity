@@ -158,12 +158,12 @@ public class AchievementData {
 		TotalSteps = totalSteps;
 	}
 
-	public IEnumerator Save() {
-		return Manager.SaveAchievementData(this);
+	public void Save() {
+		Manager.SaveAchievementData(this);
 	}
 
-	public IEnumerator Load() {
-		return Manager.LoadAchievementData(this);
+	public void Load() {
+		Manager.LoadAchievementData(this);
 	}
 
 	public static AchievementData FromObject(KiiObject obj) {

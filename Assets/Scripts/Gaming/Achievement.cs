@@ -128,12 +128,12 @@ public class Achievement {
 		return (CurrentSteps * 100.0) / AchievementData.TotalSteps;
 	}
 
-	public IEnumerator Save() {
-		return Manager.SaveAchievement(this);
+	public void Save() {
+		Manager.SaveAchievement(this);
 	}
 
-	public IEnumerator Load() {
-		return Manager.LoadAchievement(this);
+	public void Load() {
+		Manager.LoadAchievement(this);
 	}
 
 	public void Unlock() {
@@ -146,6 +146,10 @@ public class Achievement {
 
 	public void Hide() {
 		State = Constants.ACHIEVEMENT_STATE_HIDDEN;
+	}
+
+	public void Reset() {
+		CurrentSteps = 0;
 	}
 
 	public int Increment() {
@@ -176,8 +180,9 @@ public class Achievement {
 			Id = obj.GetString(IdProperty);
 		if(obj.Has(StateProperty))
 			State = obj.GetInt(StateProperty);
-		if(obj.Has(CurrentStepsProperty))
+		if(obj.Has(CurrentStepsProperty)){
 			CurrentSteps = obj.GetInt(CurrentStepsProperty);
+		}
 		mRawObject = obj;
 	}
 	
