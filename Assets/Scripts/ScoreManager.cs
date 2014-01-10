@@ -1,6 +1,7 @@
 ﻿using KiiCorp.Cloud.Storage;
 using UnityEngine;
 using System;
+using KiiCorp.Cloud.Gaming;
 
 public class ScoreManager {
 
@@ -95,7 +96,9 @@ public class ScoreManager {
 			icebBreaker.Load();
 			//if(!icebBreaker.IsUnlocked()){
 				icebBreaker.Unlock();
-				Debug.Log("Congrats, you have unlocked " + icebBreaker.AchievementData.Name + ". " + icebBreaker.AchievementData.Description);
+				Debug.Log("Congrats, you have unlocked " 
+			          + icebBreaker.AchievementData.Name + ". " 
+			          + icebBreaker.AchievementData.Description);
 				icebBreaker.Save();
 			//}
 			breakIce = false;
@@ -107,9 +110,13 @@ public class ScoreManager {
 		//if(!halfScorer.IsUnlocked()){
 			halfScorer.Increment();
 			if(halfScorer.IsUnlocked()){
-				Debug.Log("Congrats, you have unlocked " + halfScorer.AchievementData.Name + ". " + halfScorer.AchievementData.Description);
+				Debug.Log("Congrats, you have unlocked " 
+			          + halfScorer.AchievementData.Name + ". " 
+			          + halfScorer.AchievementData.Description);
 			} else {
-				Debug.Log("Done "+ halfScorer.CurrentSteps +" step/s. You have " + halfScorer.PercentCompleted().ToString() + "% of " + halfScorer.AchievementData.Name);
+				Debug.Log("Done "+ halfScorer.CurrentSteps +" step/s. You have " 
+			          + halfScorer.PercentCompleted().ToString() 
+			          + "% of " + halfScorer.AchievementData.Name);
 			}
 			halfScorer.Save();
 		//}

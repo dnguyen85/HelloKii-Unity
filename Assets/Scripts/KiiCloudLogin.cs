@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using KiiCorp.Cloud.Storage;
+using KiiCorp.Cloud.Gaming;
 using System;
 
 public class KiiCloudLogin : MonoBehaviour {
@@ -117,7 +118,7 @@ public class KiiCloudLogin : MonoBehaviour {
 		AchievementData badge2 = new AchievementData("half_scorer");
 		badge2.Name = "Half Score Achievement";
 		badge2.SetIncremental(11);
-		badge2.Description = "Awarded when player reaches half the total score in the game";
+		badge2.Description = "Awarded when player reaches half the total score of the game";
 
 		Debug.Log("Saving badges");
 		badge1.Save();
