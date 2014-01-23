@@ -54,7 +54,7 @@ public class KiiCloudLogin : MonoBehaviour {
 				Debug.Log ("Username/password can't be empty");
 			else {
 				ScoreManager.clearLocalScore();
-            	register2 ();
+            	register ();
 			}
         }
 
@@ -82,6 +82,7 @@ public class KiiCloudLogin : MonoBehaviour {
 			if (e == null) {
 				Debug.Log ("Login completed");
 				user = user2;
+				SaveGamingMetadata ();
 			} else {
 				user = null;
 				OnCallback = false;
@@ -108,21 +109,50 @@ public class KiiCloudLogin : MonoBehaviour {
 		});
 	}
 
-	private void register2 () {
-		login ();
-		Debug.Log("Building Achievement Data");
-		AchievementData badge1 = new AchievementData("ice_breaker");
-		badge1.Name = "Ice Breaker Achievement";
-		badge1.Description = "Awarded when player scores for the first time";
+	private void SaveGamingMetadata() {
+		KiiUtils.LogFunction = Debug.Log;
+		Debug.Log("Building Achievement Metadata");
+		AchievementMetadata badge1 = new AchievementMetadata("ice_breaker");
+		try{
+			badge1.LoadLatest();
+		}
+		catch(ObjectNotFoundException){
+			badge1.Name = "Ice Breaker Achievement";
+			badge1.Description = "Awarded when player scores for the first time";
+			badge1.Save();
+		}
 
-		AchievementData badge2 = new AchievementData("half_scorer");
-		badge2.Name = "Half Score Achievement";
-		badge2.SetIncremental(11);
-		badge2.Description = "Awarded when player reaches half the total score of the game";
+		AchievementMetadata badge2 = new AchievementMetadata("half_scorer");
+		try{
+			badge2.LoadLatest();
+		}
+		catch(ObjectNotFoundException){
+			badge2.Name = "Half Score Achievement";
+			badge2.SetIncremental(20);
+			badge2.Description = "Awarded when player reaches half the total score of the game";
+			badge2.Save();
+		}
 
-		Debug.Log("Saving badges");
-		badge1.Save();
-		badge2.Save();
+		Debug.Log("Building Leaderboard Metadata");
+		LeaderboardMetadata leaderboard1 = new LeaderboardMetadata("user_points");
+		try{
+			leaderboard1.LoadLatest();
+		}
+		catch(ObjectNotFoundException){
+			leaderboard1.Name = "User Best Scores (not shared)";
+			leaderboard1.Description = "Aggregates scores of single user";
+			leaderboard1.Save();
+		}
+
+		LeaderboardMetadata leaderboard2 = new LeaderboardMetadata("user_time");
+		try{
+			leaderboard2.LoadLatest();
+		}
+		catch(ObjectNotFoundException){
+			leaderboard2.Name = "User Best Times (not shared)";
+			leaderboard2.Description = "Aggregates best completion times of single user";
+			leaderboard2.Save();
+		}
 
 	}
 

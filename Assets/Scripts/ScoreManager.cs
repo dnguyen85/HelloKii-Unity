@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using KiiCorp.Cloud.Gaming;
+using System.Collections.Generic;
 
 public class ScoreManager {
 
@@ -89,37 +90,56 @@ public class ScoreManager {
 
     public static void addCurrentScore (int add) {
         currentScore += add;
-		if (breakIce){
+		if (breakIce) {
 			// award ice_breaker badge (1st score in current game)
-			Achievement icebBreaker = new Achievement("ice_breaker");
-			Debug.Log("Loading ice_breaker achievement");
-			icebBreaker.Load();
-			//if(!icebBreaker.IsUnlocked()){
-				icebBreaker.Unlock();
+			Achievement iceBreaker = new Achievement("ice_breaker");
+			iceBreaker.LoadMetadata();
+
+			try {
+				iceBreaker.LoadLatest();
+			}
+			catch(ObjectNotFoundException e){
+				iceBreaker.Attach();
+			}
+
+			iceBreaker.Unlock();
+			if(iceBreaker.IsUnlocked()){
 				Debug.Log("Congrats, you have unlocked " 
-			          + icebBreaker.AchievementData.Name + ". " 
-			          + icebBreaker.AchievementData.Description);
-				icebBreaker.Save();
-			//}
+			          + iceBreaker.AchievementMetadata.Name + ": " 
+			         + iceBreaker.AchievementMetadata.Description
+				          );
+			}
+			iceBreaker.Reset();
+			iceBreaker.Save();
 			breakIce = false;
 		}
-		// increment half_scorer badge 
+		// increment half_scorer badge
+
 		Achievement halfScorer = new Achievement("half_scorer");
-		Debug.Log("Loading half_scorer achievement");
-		halfScorer.Load();
-		//if(!halfScorer.IsUnlocked()){
+		halfScorer.LoadMetadata();
+
+		try {
+			halfScorer.LoadLatest();
+		}
+		catch(ObjectNotFoundException e){
+			halfScorer.Attach();
+		}
+
+		if(!halfScorer.IsUnlocked()){
 			halfScorer.Increment();
 			if(halfScorer.IsUnlocked()){
 				Debug.Log("Congrats, you have unlocked " 
-			          + halfScorer.AchievementData.Name + ". " 
-			          + halfScorer.AchievementData.Description);
+			          + halfScorer.AchievementMetadata.Name + ". " 
+			          + halfScorer.AchievementMetadata.Description);
 			} else {
 				Debug.Log("Done "+ halfScorer.CurrentSteps +" step/s. You have " 
 			          + halfScorer.PercentCompleted().ToString() 
-			          + "% of " + halfScorer.AchievementData.Name);
+			          + "% of " + halfScorer.AchievementMetadata.Name);
 			}
-			halfScorer.Save();
-		//}
+		} else {
+			halfScorer.Reset();
+		}
+		halfScorer.Save();
     }
 
     public static int getCurrentScore () {
