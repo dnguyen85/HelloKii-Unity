@@ -19,7 +19,7 @@ public class ScoreManager {
         KiiObject kiiObj = bucket.NewKiiObject ();
         kiiObj [SCORE_KEY] = score;
 
-		kiiObj.Save((KiiObject obj, Exception e) => {
+		/*kiiObj.Save((KiiObject obj, Exception e) => {
 			if (e != null)
 			{
 				Debug.LogError(e.ToString());
@@ -27,6 +27,7 @@ public class ScoreManager {
 				Debug.Log("High score sent");
 			}
 		});
+		*/
     }
 
     public static int getHighScore () {

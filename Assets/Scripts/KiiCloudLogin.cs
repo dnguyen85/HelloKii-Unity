@@ -75,7 +75,7 @@ public class KiiCloudLogin : MonoBehaviour {
 
 
 	private void login () {
-		user = null;
+		/*user = null;
 		OnCallback = true;
 		KiiUser.LogIn(username, password, (KiiUser user2, Exception e) => {
 			if (e == null) {
@@ -86,11 +86,11 @@ public class KiiCloudLogin : MonoBehaviour {
 				OnCallback = false;
 				Debug.Log ("Login failed : " + e.ToString());
 			}
-		});
+		});*/
 	}
 	
 	private void register () {
-		user = null;
+		/*user = null;
 		OnCallback = true;
 		KiiUser built_user = KiiUser.BuilderWithName (username).Build ();
 		built_user.Register(password, (KiiUser user2, Exception e) => {
@@ -104,7 +104,7 @@ public class KiiCloudLogin : MonoBehaviour {
 				Debug.Log ("Register failed : " + e.ToString());
 			}
 
-		});
+		});*/
 	}
 
 }
