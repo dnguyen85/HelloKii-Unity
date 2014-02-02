@@ -11,6 +11,11 @@ public class KiiCloudLogin : MonoBehaviour {
 	private KiiUser user = null;
 	private bool OnCallback = false;
 
+	public static Achievement iceBreaker;
+	public static Achievement halfScorer;
+	public static LeaderboardMetadata userPointsMeta;
+	public static LeaderboardMetadata userTimeMeta;
+
     // Use this for initialization
     void Start () {
 
@@ -80,9 +85,9 @@ public class KiiCloudLogin : MonoBehaviour {
 		OnCallback = true;
 		KiiUser.LogIn(username, password, (KiiUser user2, Exception e) => {
 			if (e == null) {
-				Debug.Log ("Login completed");
 				user = user2;
-				SaveGamingMetadata ();
+				SaveGamingData ();
+				Debug.Log ("Login completed");
 			} else {
 				user = null;
 				OnCallback = false;
@@ -99,6 +104,7 @@ public class KiiCloudLogin : MonoBehaviour {
 			if (e == null)
 			{
 				user = user2;
+				SaveGamingData();
 				Debug.Log ("Register completed");
 			} else {
 				user = null;
@@ -109,55 +115,130 @@ public class KiiCloudLogin : MonoBehaviour {
 		});
 	}
 
-	private void SaveGamingMetadata() {
+	private void SaveGamingData() {
+
 		KiiUtils.LogFunction = Debug.Log;
-		Debug.Log("Building Achievement Metadata");
-		AchievementMetadata badge1 = new AchievementMetadata("ice_breaker");
-		try{
-			badge1.LoadLatest();
-		}
-		catch(ObjectNotFoundException){
-			badge1.Name = "Ice Breaker Achievement";
-			badge1.Description = "Awarded when player scores for the first time";
-			badge1.Save();
-			Debug.Log("Saved ice_breaker metadata");
-		}
 
-		AchievementMetadata badge2 = new AchievementMetadata("half_scorer");
-		try{
-			badge2.LoadLatest();
-		}
-		catch(ObjectNotFoundException){
-			badge2.Name = "Half Score Achievement";
-			badge2.SetIncremental(20);
-			badge2.Description = "Awarded when player reaches half the total score of the game";
-			badge2.Save();
-			Debug.Log("Saved half_scorer metadata");
-		}
+		Debug.Log("Building Achievements");
 
-		Debug.Log("Building Leaderboard Metadata");
-		LeaderboardMetadata leaderboard1 = new LeaderboardMetadata("user_points");
-		try{
-			leaderboard1.LoadLatest();
-		}
-		catch(ObjectNotFoundException){
-			leaderboard1.Name = "User Best Scores (not shared)";
-			leaderboard1.Description = "Aggregates scores of single user";
-			leaderboard1.Save();
-			Debug.Log("Saved user_points metadata");
-		}
+		AchievementMetadata iceBreakerMeta = new AchievementMetadata("ice_breaker");
+		iceBreakerMeta.LoadLatest((GamingObject<AchievementMetadata> md1, Exception e1) => {
+			if(e1 != null){
+				if(e1 is ObjectNotFoundException){
+					iceBreakerMeta.Name = "Ice Breaker Achievement";
+					iceBreakerMeta.Description = "Awarded when player scores for the first time";
+					iceBreakerMeta.Save((GamingObject<AchievementMetadata> md2, Exception e2) => {
+						if(e2 == null)
+							Debug.Log("Saved achievement metadata: ice_breaker");
+						else {
+							Debug.Log("Error saving achievement metadata: ice_breaker");
+							return;
+						}
+					});
+				}
+				else {
+					Debug.Log("Unknown error loading achievement metadata: ice_breaker");
+					return;
+				}
+			}
+			else
+				Debug.Log("Loaded latest achievement metadata: ice_breaker");
+			iceBreaker = new Achievement(iceBreakerMeta);
+			iceBreaker.LoadLatest((GamingObject<Achievement> d1, Exception e3) => {
+				if(e3 != null){
+					if(e3 is ObjectNotFoundException){
+						Debug.Log("Not found. Attaching: ice_breaker");
+						iceBreaker.Attach();
+					}
+					else
+						Debug.Log("Unknown error loading achievement: ice_breaker");
+				}
+				else
+					Debug.Log("Found achievement: ice_breaker");
+			});
+		});
 
-		LeaderboardMetadata leaderboard2 = new LeaderboardMetadata("user_time");
-		try{
-			leaderboard2.LoadLatest();
-		}
-		catch(ObjectNotFoundException){
-			leaderboard2.Name = "User Best Times (not shared)";
-			leaderboard2.Description = "Aggregates best completion times of single user";
-			leaderboard2.Save();
-			Debug.Log("Saved user_time metadata");
-		}
+		AchievementMetadata halfScorerMeta = new AchievementMetadata("half_scorer");
+		halfScorerMeta.LoadLatest((GamingObject<AchievementMetadata> md1, Exception e1) => {
+			if(e1 != null){
+				if(e1 is ObjectNotFoundException){
+					halfScorerMeta.Name = "Half Score Achievement";
+					halfScorerMeta.SetIncremental(20);
+					halfScorerMeta.Description = "Awarded when player reaches half the total score of the game";
+					halfScorerMeta.Save((GamingObject<AchievementMetadata> md2, Exception e2) => {
+						if(e2 == null){
+							Debug.Log("Saved achievement metadata: half_scorer");
+						}
+						else {
+							Debug.Log("Error saving achievement metadata: half_scorer");
+							return;
+						}
+					});
+				}
+				else {
+					Debug.Log("Unknown error loading achievement metadata: half_scorer");
+					return;
+				}
+			}
+			else
+				Debug.Log("Loaded latest achievement metadata: half_scorer");
+			halfScorer = new Achievement(halfScorerMeta);
+			halfScorer.LoadLatest((GamingObject<Achievement> d1, Exception e3) => {
+				if(e3 != null){
+					if(e3 is ObjectNotFoundException){
+						Debug.Log("Not found. Attaching: halfScorer");
+						halfScorer.Attach();
+					}
+					else
+						Debug.Log("Unknown error loading achievement: halfScorer");
+				}
+				else
+					Debug.Log("Found achievement: halfScorer");
+			});
+		});
 
+
+		Debug.Log("Building Leaderboards");
+
+		userPointsMeta = new LeaderboardMetadata("user_points");
+		userPointsMeta.LoadLatest((GamingObject<LeaderboardMetadata> md1, Exception e1) => {
+			if(e1 != null){
+				if(e1 is ObjectNotFoundException){
+					userPointsMeta.Name = "User Best Scores (not shared)";
+					userPointsMeta.Description = "Aggregates scores of single user";
+					userPointsMeta.Save((GamingObject<LeaderboardMetadata> md2, Exception e2) => {
+						if(e2 == null)
+							Debug.Log("Saved leaderboard metadata: user_points");
+						else
+							Debug.Log("Error saving leaderboard metadata: user_points");
+					});
+				}
+				else
+					Debug.Log("Unknown error loading leaderboard metadata: user_points");
+			}
+			else
+				Debug.Log("Loaded latest leaderboard metadata: user_points");
+		});
+
+		userTimeMeta = new LeaderboardMetadata("user_time");
+		userTimeMeta.LoadLatest((GamingObject<LeaderboardMetadata> md1, Exception e1) => {
+			if(e1 != null){
+				if(e1 is ObjectNotFoundException){
+					userTimeMeta.Name = "User Best Times (not shared)";
+					userTimeMeta.Description = "Aggregates best completion times of single user";
+					userTimeMeta.Save((GamingObject<LeaderboardMetadata> md2, Exception e2) => {
+						if(e2 == null)
+							Debug.Log("Saved leaderboard metadata: user_time");
+						else
+							Debug.Log("Error saving leaderboard metadata: user_time");
+					});
+				}
+				else
+					Debug.Log("Unknown error loading leaderboard metadata: user_time");
+			}
+			else
+				Debug.Log("Loaded latest leaderboard metadata: user_time");
+		});
 	}
 
 }

@@ -90,23 +90,15 @@ public class ScoreManager {
 
     public static void addCurrentScore (int add) {
         currentScore += add;
+
 		if (breakIce) {
 			// award ice_breaker badge (1st score in current game)
-			Debug.Log("Loading ice_breaker metadata");
-			Achievement iceBreaker = new Achievement("ice_breaker");
-			iceBreaker.LoadMetadata();
-
-			try {
-				iceBreaker.LoadLatest();
-				Debug.Log("Loaded latest ice_breaker");
-			}
-			catch(ObjectNotFoundException e){
-				iceBreaker.Attach();
-				Debug.Log("Attached ice_breaker");
-			}
-
+			Debug.Log("Processing achievement ice_breaker");
+			Achievement iceBreaker = KiiCloudLogin.iceBreaker;
+			Debug.Log("Unlocking achievement ice_breaker");
 			iceBreaker.Unlock();
 			if(iceBreaker.IsUnlocked()){
+				Debug.Log("Achievement is unlocked ice_breaker");
 				Debug.Log("Congrats, you have unlocked " 
 			          + iceBreaker.AchievementMetadata.Name + ": " 
 			         + iceBreaker.AchievementMetadata.Description
@@ -115,20 +107,15 @@ public class ScoreManager {
 			Debug.Log("Resetting ice_breaker");
 			iceBreaker.Reset();
 			Debug.Log("Saving ice_breaker");
-			iceBreaker.Save();
+			iceBreaker.Save((GamingObject<Achievement> ac, Exception e) => {
+				if(e != null)
+					Debug.Log("Failed to save ice_breaker");
+			});
 			breakIce = false;
 		}
-		// increment half_scorer badge
 
-		Achievement halfScorer = new Achievement("half_scorer");
-		halfScorer.LoadMetadata();
-
-		try {
-			halfScorer.LoadLatest();
-		}
-		catch(ObjectNotFoundException e){
-			halfScorer.Attach();
-		}
+		// Increment half_scorer badge
+		Achievement halfScorer = KiiCloudLogin.halfScorer;
 
 		if(!halfScorer.IsUnlocked()){
 			halfScorer.Increment();
@@ -138,13 +125,18 @@ public class ScoreManager {
 			          + halfScorer.AchievementMetadata.Description);
 			} else {
 				Debug.Log("Done "+ halfScorer.CurrentSteps +" step/s. You have " 
-			          + halfScorer.PercentCompleted().ToString() 
+				          + halfScorer.PercentCompleted().ToString("0.00") 
 			          + "% of " + halfScorer.AchievementMetadata.Name);
 			}
 		} else {
+			Debug.Log("Resetting half_scorer");
 			halfScorer.Reset();
 		}
-		halfScorer.Save();
+		Debug.Log("Saving half_scorer");
+		halfScorer.Save((GamingObject<Achievement> ac, Exception e) => {
+			if(e != null)
+				Debug.Log("Failed to save half_scorer");
+		});
     }
 
     public static int getCurrentScore () {
