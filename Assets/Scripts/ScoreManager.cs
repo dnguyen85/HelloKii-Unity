@@ -53,10 +53,10 @@ public class ScoreManager {
 				cachedHighScore = score;
 				return score;
 			}
-			Debug.Log ("Query succeeded");
+			Debug.Log ("High score fetched");
 			return 0;
 		} catch (CloudException e) {
-			Debug.Log ("Failed to query " + e.ToString());
+			Debug.Log ("Failed to fetch high score: " + e.ToString());
 			return 0;
 		}
 
@@ -92,14 +92,17 @@ public class ScoreManager {
         currentScore += add;
 		if (breakIce) {
 			// award ice_breaker badge (1st score in current game)
+			Debug.Log("Loading ice_breaker metadata");
 			Achievement iceBreaker = new Achievement("ice_breaker");
 			iceBreaker.LoadMetadata();
 
 			try {
 				iceBreaker.LoadLatest();
+				Debug.Log("Loaded latest ice_breaker");
 			}
 			catch(ObjectNotFoundException e){
 				iceBreaker.Attach();
+				Debug.Log("Attached ice_breaker");
 			}
 
 			iceBreaker.Unlock();
@@ -109,7 +112,9 @@ public class ScoreManager {
 			         + iceBreaker.AchievementMetadata.Description
 				          );
 			}
+			Debug.Log("Resetting ice_breaker");
 			iceBreaker.Reset();
+			Debug.Log("Saving ice_breaker");
 			iceBreaker.Save();
 			breakIce = false;
 		}

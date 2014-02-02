@@ -120,6 +120,7 @@ public class KiiCloudLogin : MonoBehaviour {
 			badge1.Name = "Ice Breaker Achievement";
 			badge1.Description = "Awarded when player scores for the first time";
 			badge1.Save();
+			Debug.Log("Saved ice_breaker metadata");
 		}
 
 		AchievementMetadata badge2 = new AchievementMetadata("half_scorer");
@@ -131,6 +132,7 @@ public class KiiCloudLogin : MonoBehaviour {
 			badge2.SetIncremental(20);
 			badge2.Description = "Awarded when player reaches half the total score of the game";
 			badge2.Save();
+			Debug.Log("Saved half_scorer metadata");
 		}
 
 		Debug.Log("Building Leaderboard Metadata");
@@ -142,6 +144,7 @@ public class KiiCloudLogin : MonoBehaviour {
 			leaderboard1.Name = "User Best Scores (not shared)";
 			leaderboard1.Description = "Aggregates scores of single user";
 			leaderboard1.Save();
+			Debug.Log("Saved user_points metadata");
 		}
 
 		LeaderboardMetadata leaderboard2 = new LeaderboardMetadata("user_time");
@@ -152,6 +155,7 @@ public class KiiCloudLogin : MonoBehaviour {
 			leaderboard2.Name = "User Best Times (not shared)";
 			leaderboard2.Description = "Aggregates best completion times of single user";
 			leaderboard2.Save();
+			Debug.Log("Saved user_time metadata");
 		}
 
 	}
