@@ -16,24 +16,13 @@ public class GameTitle : MonoBehaviour {
         }
     }
 
-    void Awake () {
-        //Sign up on developer.kii.com and create a Unity app to get these parameters!
-		//See the Assets/Readme.txt file in this project for more info
-		Kii.Initialize ("__KII_APP_ID__", "__KII_APP_KEY__", __KII_APP_SITE__);
-		//Your backend location options: Kii.Site.US, Kii.Site.JP, Kii.Site.CN
-		//IMPORTANT: backend location here must match backend location configured in your app at developer.kii.com
-
-		//Interested in Game Analytics? Get our Analytics SDK http://developer.kii.com/#/sdks
-		//More info: http://documentation.kii.com/en/guides/unity/managing-analytics
-	}
-	
-    void OnGUI () {
+	void OnGUI () {
 		GUIStyle style = GUI.skin.GetStyle("Label");
 		GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
-        GUILayout.FlexibleSpace ();
-        GUILayout.BeginHorizontal ();
-        GUILayout.FlexibleSpace ();
-        GUILayout.BeginVertical ();
+		GUILayout.FlexibleSpace ();
+		GUILayout.BeginHorizontal ();
+		GUILayout.FlexibleSpace ();
+		GUILayout.BeginVertical ();
 		GUILayout.Label ("<size=35>Breakout by Kii</size>", style, GUILayout.ExpandWidth (false));
 		// Don't replace the parameters below please!! Replace in the Awake() method
 		if (Kii.AppId == null || Kii.AppKey == null || Kii.AppId.Equals ("__KII_APP_ID__") || Kii.AppKey.Equals ("__KII_APP_KEY__")) {
@@ -50,13 +39,13 @@ public class GameTitle : MonoBehaviour {
 				Application.LoadLevel ("2_KiiCloudLogin");
 			}	
 		}
-
-        GUILayout.EndVertical ();
-        GUILayout.FlexibleSpace ();
-        GUILayout.EndHorizontal ();
-        GUILayout.FlexibleSpace ();
-        GUILayout.EndArea ();
-    }
+		
+		GUILayout.EndVertical ();
+		GUILayout.FlexibleSpace ();
+		GUILayout.EndHorizontal ();
+		GUILayout.FlexibleSpace ();
+		GUILayout.EndArea ();
+	}
 
     private string getCurrentUsername () {
         KiiUser user = KiiUser.CurrentUser;
