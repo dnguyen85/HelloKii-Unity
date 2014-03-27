@@ -35,6 +35,10 @@ public class KiiAutoInitialize : ScriptableObject {
 		Debug.Log ("AppId:" + appID + " / AppKey:" + appKey + " / AppSite:" + appSite.ToString());
 
 		Kii.Initialize(appID, appKey, appSite);
+		// If you downloaded the skeleton project from developer.kii.com
+		// your keys should be prepopulated below and you should comment
+		// the initialization above
+		//Kii.Initialize("__KII_APP_ID__", "__KII_APP_KEY__", __KII_APP_SITE__);
 
 		//Interested in Game Analytics? Get our Analytics SDK http://developer.kii.com/#/sdks
 		//More info: http://documentation.kii.com/en/guides/unity/managing-analytics

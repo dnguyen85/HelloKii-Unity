@@ -50,10 +50,10 @@ public class ScoreManager {
 				cachedHighScore = score;
 				return score;
 			}
-			Debug.Log ("Query succeeded");
+			Debug.Log ("High score fetched");
 			return 0;
 		} catch (CloudException e) {
-			Debug.Log ("Failed to query " + e.ToString());
+			Debug.Log ("Failed to fetch high score: " + e.ToString());
 			return 0;
 		}
 
@@ -61,9 +61,9 @@ public class ScoreManager {
 		bucket.Query(query, (KiiQueryResult<KiiObject> list, Exception e) =>{
 			if (e != null)
 			{
-				Debug.Log ("Failed to query " + e.ToString());
+				Debug.Log ("Failed to fetch high score: " + e.ToString());
 			} else {
-				Debug.Log ("Query succeeded");
+				Debug.Log ("High score fetched");
 				foreach (KiiObject obj in list) {
 					int score = obj.GetInt (SCORE_KEY, 0);
 					cachedHighScore = score;
