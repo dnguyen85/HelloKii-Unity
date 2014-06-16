@@ -169,6 +169,7 @@ MonoBehaviour:
   AppID: a8ce3753
   AppKey: 7eac5fd9138f754adef2c84145c045dd
   Site: 1
+  apiTimeout: 30
   ServerUrl: 
 --- !u!1 &1423895997
 GameObject:
