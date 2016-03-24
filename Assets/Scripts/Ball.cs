@@ -33,7 +33,7 @@ public class Ball : MonoBehaviour {
         Vector3 vel = Vector3.zero;
         vel.x = INIT_SPEED * Mathf.Cos (INIT_DEGREE * Mathf.PI / 180f);
         vel.y = INIT_SPEED * Mathf.Sin (INIT_DEGREE * Mathf.PI / 180f);
-        rigidbody.velocity = vel;
+        GetComponent<Rigidbody>().velocity = vel;
     }
 
     // Collision behavior for non-trigger
@@ -44,20 +44,20 @@ public class Ball : MonoBehaviour {
         }
 
         // To normalize ball speed
-        rigidbody.velocity = rigidbody.velocity.normalized * INIT_SPEED;
+        GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * INIT_SPEED;
 
         // To avoid infinite bounce loop, add some acceleration for each angle.
-        if (Mathf.Abs (rigidbody.velocity.y) < 20) {
+        if (Mathf.Abs (GetComponent<Rigidbody>().velocity.y) < 20) {
             Vector3 vel = Vector3.zero;
-            vel.x = rigidbody.velocity.x;
-            vel.y = rigidbody.velocity.y * 5;
-            rigidbody.velocity = vel;
+            vel.x = GetComponent<Rigidbody>().velocity.x;
+            vel.y = GetComponent<Rigidbody>().velocity.y * 5;
+            GetComponent<Rigidbody>().velocity = vel;
         }
-        if (Mathf.Abs (rigidbody.velocity.x) < 20) {
+        if (Mathf.Abs (GetComponent<Rigidbody>().velocity.x) < 20) {
             Vector3 vel = Vector3.zero;
-            vel.x = rigidbody.velocity.x * 5;
-            vel.y = rigidbody.velocity.y;
-            rigidbody.velocity = vel;
+            vel.x = GetComponent<Rigidbody>().velocity.x * 5;
+            vel.y = GetComponent<Rigidbody>().velocity.y;
+            GetComponent<Rigidbody>().velocity = vel;
         }
      
     }

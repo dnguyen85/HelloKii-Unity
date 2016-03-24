@@ -18,11 +18,11 @@ public class Bar : MonoBehaviour {
         Vector3 inputPosOnGame = Camera.main.ScreenToWorldPoint (inputPos);
 
         // Get bar position
-        Vector3 barPosition = rigidbody.position;
+        Vector3 barPosition = GetComponent<Rigidbody>().position;
         // Change bar x-position to input x-position 
         barPosition.x = inputPosOnGame.x;
 
         // Apply position
-        rigidbody.MovePosition (barPosition);
+        GetComponent<Rigidbody>().MovePosition (barPosition);
     }
 }

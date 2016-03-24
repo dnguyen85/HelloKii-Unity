@@ -1,3 +1,9 @@
+Install
+=======
+
+1) Remove all old sdk files.(dlls, plugins)
+2) Go to project directory named ‘Kii’ and double click on unity-cloud-sdk-x.y.z.unitypackage
+
 Create your own Game Cloud
 ==========================
 
@@ -30,6 +36,5 @@ Game Cloud Tutorial: http://docs.kii.com/en/samples/Gamecloud-Unity/
 Interested in Game Analytics?
 =============================
 
-We also offer a dedicated Unity SDK for Game Analytics which you can
-download here: http://developer.kii.com/#/sdks
+Unity SDK for Game Analytics is now integrated Game Cloud SDK.
 More info: http://documentation.kii.com/en/guides/unity/managing-analytics
